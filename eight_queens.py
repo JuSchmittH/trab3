@@ -7,7 +7,13 @@ def evaluate(individual):
     :param individual:list
     :return:int numero de ataques entre rainhas no individuo recebido
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    atacks = 0
+    for indX in range(8):
+        for indY in range(indX + 1, 8):
+            dist = indY - indX
+            if individual[indX] == individual[indY] or individual[indX] == individual[indY] - dist or individual[indX] == individual[indY] + dist:
+                atacks += 1
+    return atacks
 
 
 def tournament(participants):
