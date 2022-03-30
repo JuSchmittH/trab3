@@ -59,7 +59,15 @@ def mutate(individual, m):
     :param m:int - probabilidade de mutacao
     :return:list - individuo apos mutacao (ou intacto, caso a prob. de mutacao nao seja satisfeita)
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    new_individual = individual[:]
+    
+    mutated = numpy.random.uniform(low = 0, high = 1) < m
+    if mutated:
+        position = numpy.random.randint(low = 0, high = 8)
+        new_value = numpy.random.randint(low = 0, high = 8)
+        new_individual[position] = new_value
+
+    return new_individual
 
 
 def run_ga(g, n, k, m, e):
