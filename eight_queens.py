@@ -2,19 +2,25 @@ def evaluate(individual):
     """
     Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
     entre rainhas na configuração especificada pelo indivíduo.
-    Por exemplo, no individuo [2,2,4,8,1,6,3,4], o número de ataques é 9.
+    Por exemplo, no individuo [2,2,4,8,1,6,3,4], o número de ataques é 10.
 
     :param individual:list
     :return:int numero de ataques entre rainhas no individuo recebido
     """
-    atacks = 0
-    for indX in range(8):
-        for indY in range(indX + 1, 8):
-            dist = indY - indX
-            if individual[indX] == individual[indY] or individual[indX] == individual[indY] - dist or individual[indX] == individual[indY] + dist:
-                atacks += 1
-    return atacks
+    attacks_count = 0
 
+    for idx_first in range(8):
+        for idx_second in range(idx_first + 1, 8):
+            distance = idx_second - idx_first
+
+            can_attack = (individual[idx_first] == individual[idx_second]
+                        or individual[idx_first] == individual[idx_second] - distance
+                        or individual[idx_first] == individual[idx_second] + distance)
+
+            if can_attack:
+                attacks_count += 1
+
+    return attacks_count
 
 def tournament(participants):
     """
@@ -23,8 +29,8 @@ def tournament(participants):
     :param participants:list - lista de individuos
     :return:list melhor individuo da lista recebida
     """
-    raise NotImplementedError  # substituir pelo seu codigo
-
+    best_individual = min(participants, key = evaluate)
+    return best_individual
 
 def crossover(parent1, parent2, index):
     """
