@@ -90,17 +90,19 @@ def run_ga(g, n, k, m, e):
         elements.append(list(ind))
 
     print("elements",elements)
-    for generation in range(g):
+    for _ in range(g):
         if e:
             new_els = [tournament(elements)]
         else:
             new_els = []
         
         while len(new_els) < n:
-            els_frst = tournament(random.sample(elements, k))
-            els_scnd = tournament(random.sample(elements, k))
+            k1 = random.sample(elements, k)
+            k2 = random.sample(elements, k)
+            els_frst = tournament(k1)
+            els_scnd = tournament(k2)
             
-            ext_frst, ext_scnd = crossover(els_frst, els_scnd, numpy.random.randint(0, 8))
+            ext_frst, ext_scnd = crossover(els_frst, els_scnd, numpy.random.randint(low = 0, high = 8))
             ext_frst = mutate(ext_frst, m)
             ext_scnd = mutate(ext_scnd, m)
 
