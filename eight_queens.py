@@ -1,3 +1,6 @@
+import numpy
+import random
+
 def evaluate(individual):
     """
     Recebe um indivíduo (lista de inteiros) e retorna o número de ataques
@@ -69,7 +72,6 @@ def mutate(individual, m):
 
     return new_individual
 
-
 def run_ga(g, n, k, m, e):
     """
     Executa o algoritmo genético e retorna o indivíduo com o menor número de ataques entre rainhas
@@ -80,4 +82,32 @@ def run_ga(g, n, k, m, e):
     :param e:bool - se vai haver elitismo
     :return:list - melhor individuo encontrado
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+
+    elements = []
+
+    individuals = numpy.random.randint(low = 1, high = 9, size = (n, 8))
+    for ind in individuals:
+        elements.append(list(ind))
+
+    print("elements",elements)
+    for generation in range(g):
+        if e:
+            new_els = [tournament(elements)]
+        else:
+            new_els = []
+        
+        while len(new_els) < n:
+            els_frst = tournament(random.sample(elements, k))
+            els_scnd = tournament(random.sample(elements, k))
+            
+            ext_frst, ext_scnd = crossover(els_frst, els_scnd, numpy.random.randint(0, 8))
+            ext_frst = mutate(ext_frst, m)
+            ext_scnd = mutate(ext_scnd, m)
+
+            new_els.extend([ext_frst, ext_scnd])
+
+        elements = new_els
+
+    return tournament(elements)
+
+print("run", run_ga(5, 6, 6, 0.8, False))
