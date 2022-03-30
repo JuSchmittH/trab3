@@ -9,8 +9,9 @@ def compute_mse(theta_0, theta_1, data):
     :param data: np.array - matriz com o conjunto de dados, x na coluna 0 e y na coluna 1
     :return: float - o erro quadratico medio
     """
-    raise NotImplementedError  # substituir pelo seu codigo
-
+    result = 1 * sum((theta_0 + theta_1*data[:,0] - data[:,1])**2)
+    result = result / data.shape[0]
+    return result
 
 def step_gradient(theta_0, theta_1, data, alpha):
     """
@@ -21,8 +22,13 @@ def step_gradient(theta_0, theta_1, data, alpha):
     :param alpha: float - taxa de aprendizado (a.k.a. tamanho do passo)
     :return: float,float - os novos valores de theta_0 e theta_1, respectivamente
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    base = theta_0 + theta_1*data[:,0] - data[:,1]
+    sum_dt0, sum_dt1 = sum(base), sum((base) * data[:,0])
 
+    dt0, dt1 = 2 * sum_dt0 / data.shape[0], 2 * sum_dt1 / data.shape[0] 
+
+    (new_t0, new_t1) = theta_0 - alpha * dt0,  theta_1 - alpha * dt1
+    return (new_t0, new_t1)
 
 def fit(data, theta_0, theta_1, alpha, num_iterations):
     """
@@ -39,4 +45,11 @@ def fit(data, theta_0, theta_1, alpha, num_iterations):
     :param num_iterations: int - numero de épocas/iterações para executar a descida de gradiente
     :return: list,list - uma lista com os theta_0 e outra com os theta_1 obtidos ao longo da execução
     """
-    raise NotImplementedError  # substituir pelo seu codigo
+    list_t0, list_t1 = [theta_0], [theta_1]
+    
+    for _ in range(num_iterations):
+        theta_0, theta_1 = step_gradient(theta_0, theta_1, data, alpha)
+        list_t0.append(theta_0)
+        list_t1.append(theta_1)
+
+    return list_t0, list_t1
