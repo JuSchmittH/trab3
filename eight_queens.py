@@ -67,7 +67,7 @@ def mutate(individual, m):
     mutated = numpy.random.uniform(low = 0, high = 1) < m
     if mutated:
         position = numpy.random.randint(low = 0, high = 8)
-        new_value = numpy.random.randint(low = 0, high = 8)
+        new_value = numpy.random.randint(low = 1, high = 9)
         new_individual[position] = new_value
 
     return new_individual
